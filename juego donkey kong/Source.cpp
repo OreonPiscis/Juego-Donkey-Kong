@@ -10,20 +10,28 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include <Windows.h>
+#include <math.h>
+#include <thread>
 
 using namespace std;
 
 
 int jugar();
 int menu();
-int ancho = 1366;
-int alto = 768;
+int ancho = 1400;
+int alto = 800;
+int contSalto = 0;
+int altSalto = 72;
+bool caer = false;
+bool salto = false;
+
 
 ALLEGRO_DISPLAY* ventana;
 ALLEGRO_FONT* hillshort;
 ALLEGRO_TIMER* segundoTimer;
 ALLEGRO_TIMER* fps;
 ALLEGRO_EVENT_QUEUE* event_queue;
+ALLEGRO_KEYBOARD_STATE wait_key_State;
 
 
 int main() {
@@ -76,6 +84,7 @@ int main() {
 	return 0;
 }
 
+
 int jugar()
 {
 	{
@@ -93,8 +102,12 @@ int jugar()
 	
 		// BITMAP* prota = load_bmp("personaje.bmp", NULL);
 
+		
+
 		ALLEGRO_BITMAP* prota = al_load_bitmap("IMAGENES/mario_quieto.png");
 		ALLEGRO_BITMAP* mapaUno = al_load_bitmap("IMAGENES/mapa_Uno.png");
+		ALLEGRO_BITMAP* floor = al_load_bitmap("IMAGENES/Floor.png");
+		ALLEGRO_BITMAP* escalera = al_load_bitmap("IMAGENES/escalera.png");
 		ALLEGRO_SAMPLE* songNivel1 = al_load_sample("sonidos/songNivelUno.mp3");
 
 
@@ -128,7 +141,24 @@ int jugar()
 
 		ALLEGRO_KEYBOARD_STATE teclado;
 
-
+		int plataformaUno[16][28] = {
+			{0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0},
+			{0,0,2,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+			{0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,3,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0},
+			{0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0},
+			{0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2.0},
+		};
 		bool salir;
 
 		int x, y;
@@ -142,9 +172,9 @@ int jugar()
 
 		// inicializar variables
 
-		x = 10;
+		x = 50;
 
-		y = 10;
+		y = 700;
 
 
 		desplaza = 4;
@@ -164,20 +194,57 @@ int jugar()
 		while (!salir)
 
 		{
-
+			al_get_keyboard_state(&wait_key_State);
 			// pinta el fondo de un color 
 
 			// clear_to_color(buffer, 0x785a5a);
+			
+			al_clear_to_color(al_map_rgb(0, 0, 0));
+			for (int xmap = 15; xmap >= 0; xmap--) {
+				for (int ymap = 27; ymap >=0; ymap--) {
+					if (plataformaUno[xmap][ymap] == 2) {
+						al_draw_bitmap(floor, (ymap*50), (xmap*50), 0);
 
-			al_clear_to_color(al_map_rgb(120, 90, 90));
-			al_draw_bitmap(mapaUno, 0, 0, 0);
+					}
+					if (plataformaUno[xmap][ymap] == 3) {
+						al_draw_bitmap(escalera, (ymap * 50), (xmap * 50), 0);
+
+					}
+				}
+
+			}
 
 
 			// masked_blit(prota, buffer, paso*32, dir*32, x, y, 32,32);
 
-			al_draw_bitmap_region(prota, paso * 48, dir * 48, 48, 48, x * desplaza, y * desplaza, 0);
+			al_draw_bitmap_region(prota, paso *48, dir *48, 48, 48, x , y , 0);
+
+			//colision plataforma caida
+			if (plataformaUno[lround(((y)*16) / 800)+1][lround(((x+24)*28)/1400)]==0 && !salto ) {
+				caer = true;
+				cout << y << endl;
+
+			}
+			else {
+				caer = false;
+				
+				
+			}
 
 
+			if (caer) {
+				y+=6;
+			}
+			if (salto && contSalto <= altSalto) {
+				contSalto += 12;
+				y-=12;
+			}
+			else {
+				salto = false;
+				
+				contSalto = 0;
+			}			
+			
 			// mostramos la pantalla
 
 			// blit(buffer, screen, 0, 0, 0, 0, 800, 600);
@@ -207,63 +274,84 @@ int jugar()
 
 			{
 
-				y--;
+				if (plataformaUno[lround(((y+48) * 16) / 800) ][lround(((x + 24) * 28) / 1400)] == 3) {
 
-				dir = 3;
+					y -= 5;
 
-				paso++;
+					dir = 3;
+
+					paso++;
+				}
 
 			}
-
+			
 			if (al_key_down(&teclado, ALLEGRO_KEY_DOWN))
 
 			{
+				if (plataformaUno[lround(((y) * 16) / 800)+1][lround(((x + 24) * 28) / 1400) ] == 3){
 
-				y++;
+					y+=5;
 
-				dir = 0;
+					dir = 0;
 
-				paso++;
-
+					paso++;
+				}
 			}
 
 			if (al_key_down(&teclado, ALLEGRO_KEY_LEFT))
 
 			{
 
-				x--;
+				
+				if (plataformaUno[lround(((y+24) * 16) / 800) ][lround(((x+48) * 28) / 1400)-1] != 2) {
+					
+					x -= 5;
 
-				dir = 1;
+					
 
+					
+				}
 				paso++;
-
+				dir = 1;
 			}
 
 			if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT))
 
 			{
+				if (plataformaUno[lround(((y+24) * 16) / 800)][lround(((x) * 28) / 1400) + 1] != 2) {
+					x += 5;
 
-				x++;
+					
 
-				dir = 2;
+					
 
+				}
 				paso++;
+				dir = 2;
+				
 
 			}
 
+			if (!caer && !salto && !al_key_down(&wait_key_State, ALLEGRO_KEY_SPACE) && al_key_down(&teclado, ALLEGRO_KEY_SPACE)) {
+				
+				salto = true;	
+					
+				
 
+			}
+			cout << salto  << endl;
 
-
+			
 			// limitadores
 
 
 			if (x < 0) x = 0;
 
-			if (x > 800 - 48) x = 800 - 48;
+			if (x > 1400 - 48) x = 1400 - 48;
 
 			if (y < 0) y = 0;
 
-			if (y > 600 - 48) y = 600 - 48;
+			if (y > 800 - 48) y = 800 - 48;
 
 
 			if (paso > 2) paso = 0;
@@ -305,6 +393,8 @@ int jugar()
 	}
 	return 1;
 }
+
+//menu
 int menu() {
 	
 	al_install_audio();
