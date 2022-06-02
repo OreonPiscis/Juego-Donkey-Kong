@@ -1,3 +1,35 @@
-﻿  Source.cpp
-C:\Users\Gabriel\Documents\GitHub\PortafolioDeEvidencia\juego donkey kong\Source.cpp(160,57): warning C4838: la conversión de 'double' en 'int' requiere una conversión de restricción
-  juego donkey kong.vcxproj -> C:\Users\Gabriel\Documents\GitHub\PortafolioDeEvidencia\x64\Debug\juego donkey kong.exe
+﻿libcpmtd.lib(xlocale.obj) : error LNK2001: símbolo externo _calloc_dbg sin resolver
+Source.obj : error LNK2001: símbolo externo _calloc_dbg sin resolver
+libcpmtd.lib(_tolower.obj) : error LNK2001: símbolo externo _calloc_dbg sin resolver
+libcpmtd.lib(locale.obj) : error LNK2001: símbolo externo _calloc_dbg sin resolver
+libcpmtd.lib(wlocale.obj) : error LNK2001: símbolo externo _calloc_dbg sin resolver
+libcpmtd.lib(StlCompareStringA.obj) : error LNK2001: símbolo externo _free_dbg sin resolver
+libcpmtd.lib(StlLCMapStringA.obj) : error LNK2001: símbolo externo _free_dbg sin resolver
+libcpmtd.lib(wlocale.obj) : error LNK2001: símbolo externo _free_dbg sin resolver
+libcpmtd.lib(xlocale.obj) : error LNK2001: símbolo externo _free_dbg sin resolver
+libcpmtd.lib(xwcsxfrm.obj) : error LNK2001: símbolo externo _free_dbg sin resolver
+Source.obj : error LNK2001: símbolo externo _free_dbg sin resolver
+libcpmtd.lib(locale0.obj) : error LNK2001: símbolo externo _free_dbg sin resolver
+libcpmtd.lib(cout.obj) : error LNK2001: símbolo externo _free_dbg sin resolver
+libcpmtd.lib(locale.obj) : error LNK2001: símbolo externo _free_dbg sin resolver
+libcpmtd.lib(StlCompareStringA.obj) : error LNK2001: símbolo externo _malloc_dbg sin resolver
+libcpmtd.lib(StlLCMapStringA.obj) : error LNK2001: símbolo externo _malloc_dbg sin resolver
+libcpmtd.lib(wlocale.obj) : error LNK2001: símbolo externo _malloc_dbg sin resolver
+libcpmtd.lib(xlocale.obj) : error LNK2001: símbolo externo _malloc_dbg sin resolver
+libcpmtd.lib(xwcsxfrm.obj) : error LNK2001: símbolo externo _malloc_dbg sin resolver
+Source.obj : error LNK2001: símbolo externo _malloc_dbg sin resolver
+libcpmtd.lib(locale0.obj) : error LNK2001: símbolo externo _malloc_dbg sin resolver
+libcpmtd.lib(cout.obj) : error LNK2001: símbolo externo _malloc_dbg sin resolver
+libcpmtd.lib(locale.obj) : error LNK2001: símbolo externo _malloc_dbg sin resolver
+libcpmtd.lib(xlocale.obj) : error LNK2001: símbolo externo _CrtDbgReport sin resolver
+Source.obj : error LNK2001: símbolo externo _CrtDbgReport sin resolver
+libcpmtd.lib(cout.obj) : error LNK2001: símbolo externo _CrtDbgReport sin resolver
+libcpmtd.lib(locale.obj) : error LNK2001: símbolo externo _CrtDbgReport sin resolver
+libcpmtd.lib(wlocale.obj) : error LNK2001: símbolo externo _CrtDbgReport sin resolver
+libcpmtd.lib(_tolower.obj) : error LNK2019: símbolo externo _wcsdup_dbg sin resolver al que se hace referencia en la función _Getctype
+libcpmtd.lib(xstrcoll.obj) : error LNK2001: símbolo externo _wcsdup_dbg sin resolver
+libcpmtd.lib(locale.obj) : error LNK2019: símbolo externo _realloc_dbg sin resolver al que se hace referencia en la función "private: static void __cdecl std::locale::_Locimp::_Locimp_Addfac(class std::locale::_Locimp *,class std::locale::facet *,unsigned __int64)" (?_Locimp_Addfac@_Locimp@locale@std@@CAXPEAV123@PEAVfacet@23@_K@Z)
+libcpmtd.lib(StlLCMapStringA.obj) : error LNK2019: símbolo externo _CrtDbgReportW sin resolver al que se hace referencia en la función _freea_crt
+libcpmtd.lib(xmbtowc.obj) : error LNK2001: símbolo externo _CrtDbgReportW sin resolver
+libcpmtd.lib(StlCompareStringA.obj) : error LNK2001: símbolo externo _CrtDbgReportW sin resolver
+C:\Users\Gabriel\Documents\GitHub\PortafolioDeEvidencia\x64\Debug\juego donkey kong.exe : fatal error LNK1120: 7 externos sin resolver
